@@ -1,15 +1,14 @@
-import Navbar from "../components/Navbar";
 import { useState, useEffect} from 'react';
 
 const API_BASE = "http://localhost:3001"
+const CLIENT_BASE = "http://localhost:3000"
 
 function GameView() {
   const [games, setGames] = useState([])
-  const [items, setItems] = useState([])
+  const [items, setItems] = useState()
   const [popupActive, setPopupActive] = useState(false)
-  const [popupTwo, setPopupTwo] = useState(false)
-  const [newGame, setNewGame] = useState("");
-  const [newItem, setNewItem] = useState("");
+  const [newGame, setNewGame] = useState();
+  const [newItem, setNewItem] = useState();
 
   useEffect(() => {
     GetGames();
@@ -39,20 +38,7 @@ function GameView() {
     setGames([...games, data])
     setPopupActive(false)
     setNewGame("")
-  }
-
-  const addItem = async (id) => {
-    const data = await fetch(API_BASE + "/game/element/" + id, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        entries: newItem
-      })
-    }).then(res => res.json())
-    setItems([...items, data])
-    setPopupTwo(false)
+    setItems("")
     setNewItem("")
   }
 
@@ -67,15 +53,19 @@ function GameView() {
     <h1>Published Games:</h1>
     {/* Implementation of mapping for games */}
     <div className="games row row-cols-auto">
-      {games.map(game => (
+      {games.map((game) => (
         <div className="card col m-2" style={{"width": "250px", "height": "250px"}} key={game._id}>
+          <a className="h-100" style={{"text-decoration": "none", "color": "black"}} href={CLIENT_BASE + "/game-view/" + game._id}>
           <h4 className="gameName card-title">{game.gameName}</h4>
           <div className="card-body">
-            {game.entries.map((entry, i) => (<div className="game-entry" key={i}>{entry}</div>))}
+            {game.entries.map((entry, i) => (
+              <div key={i}>
+                {i < 5 ? (<div className="game-entry">{entry}</div>): ""}
+              </div>
+            ))}
           </div>
+          </a>
           <button className="delete-game btn btn-close position-absolute top-0 end-0 m-1" onClick={() => deleteGame(game._id)} />
-          <input type="text" onChange={e => setNewItem(e.target.value)} value={newItem}></input>
-          <div className="btn btn-submit" type="submit" onClick={addItem(game._id)}>Add Item</div>
         </div>
       ))}
     </div>
@@ -90,6 +80,10 @@ function GameView() {
             className='add-game-input' 
             onChange={e => setNewGame(e.target.value)}
             value={newGame} />
+            <input type="text"
+            className="add-game-input"
+            onChange={e => setNewItem(e.target.value)}
+            value={newItem} />
             <div className="btn btn-submit" type="submit" onClick={addGame}>Create game</div>
           </div>
         </div>
