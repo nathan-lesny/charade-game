@@ -1,14 +1,14 @@
 import { useState, useEffect} from 'react';
+import Navbar from '../components/Navbar';
 
 const API_BASE = "http://localhost:3001"
 const CLIENT_BASE = "http://localhost:3000"
 
 function GameView() {
   const [games, setGames] = useState([])
-  const [items, setItems] = useState()
   const [popupActive, setPopupActive] = useState(false)
   const [newGame, setNewGame] = useState();
-  const [newItem, setNewItem] = useState();
+  const [image, setImage] = useState();
 
   useEffect(() => {
     GetGames();
@@ -31,15 +31,14 @@ function GameView() {
       },
       body: JSON.stringify({
         gameName: newGame,
-        entries: newItem
+        image: image
       })
     }).then(res => res.json())
 
     setGames([...games, data])
     setPopupActive(false)
     setNewGame("")
-    setItems("")
-    setNewItem("")
+    setImage("")
   }
 
   const deleteGame = async id => {
@@ -49,23 +48,18 @@ function GameView() {
 	}
 
   return ( 
-  <div className="container">
-    <h1>Published Games:</h1>
-    {/* Implementation of mapping for games */}
+  <>
+  <Navbar />
+    <div style={{"margin": "100px"}} className="gameviewmain">
     <div className="games row row-cols-auto">
       {games.map((game) => (
-        <div className="card col m-2" style={{"width": "250px", "height": "250px"}} key={game._id}>
-          <a className="h-100" style={{"text-decoration": "none", "color": "black"}} href={CLIENT_BASE + "/game-view/" + game._id}>
-          <h4 className="gameName card-title">{game.gameName}</h4>
-          <div className="card-body">
-            {game.entries.map((entry, i) => (
-              <div key={i}>
-                {i < 5 ? (<div className="game-entry">{entry}</div>): ""}
-              </div>
-            ))}
+        <div className="card col m-2 css-card" key={game._id}>
+          <img className="card-img-top" style={{"padding": "0px", "border-radius": "10px", "min-height": "250px"}} src={game.image} alt="Game image..." />
+          <div className="card-body" style={{"margin-top": "-65px", "background-color": "white", "border-radius": "0 0 10px 10px"}}>
+            <h5 className="card-title" style={{"font-size": "1.4em"}}>{game.gameName}</h5>
+            <a href={CLIENT_BASE + "/game-view/" + game._id}>Play Game</a>
           </div>
-          </a>
-          <button className="delete-game btn btn-close position-absolute top-0 end-0 m-1" onClick={() => deleteGame(game._id)} />
+          <button className="delete-game btn btn-close position-absolute top-0 end-0 m-1" style={{"padding": "14px"}} onClick={() => deleteGame(game._id)} />
         </div>
       ))}
     </div>
@@ -76,20 +70,30 @@ function GameView() {
           (false)}></button>
           <div className="content">
             <h3>Add Task</h3>
-            <input type="text" 
-            className='add-game-input' 
-            onChange={e => setNewGame(e.target.value)}
-            value={newGame} />
-            <input type="text"
-            className="add-game-input"
-            onChange={e => setNewItem(e.target.value)}
-            value={newItem} />
+            <div id="task-holder">
+              <div className="inner-task">
+                <label style={{"margin-right": "5px"}}>Name:</label>
+                <input placeholder="Set name" type="text" 
+                className='add-game-input' 
+                onChange={e => setNewGame(e.target.value)}
+                value={newGame} />
+              </div>
+              <div className="inner-task">
+                <label style={{"margin-right": "5px"}}>Image Address:</label>
+                <input placeholder="https://image.com" type="text" 
+                className='add-game-input' 
+                onChange={e => setImage(e.target.value)}
+                value={image} />
+              </div>
+            </div>
             <div className="btn btn-submit" type="submit" onClick={addGame}>Create game</div>
           </div>
         </div>
       ) : '' }
-  </div> 
+      </div>
+  </>
   );
+  
 }
  
 export default GameView;

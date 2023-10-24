@@ -40,6 +40,7 @@ function ViewGame() {
         entries: newItem
       })
     }).then(res => res.json())
+    .catch(err => console.error("Error: ", err))
 
     setItems("")
     setNewItem("")
@@ -49,22 +50,22 @@ function ViewGame() {
   <>
     <Navbar />
     {exists ? (
-      <>
-    <h1>{ name }</h1>
-    <ul>
-    { entries.map((entry, a) => (
-      <div key={a}>
-      <hr></hr>
-      <li>{entry}</li>
-      </div>
-    )) }
-    </ul>
-    <h2>Add Entries</h2>
-    <input type="text"
-          onChange={e => setNewItem(e.target.value)}
-          value={newItem}/>
-          <button className="btn btn-success" onClick={() => addEntries(id)}>Add Items</button>
-    </>): (
+      <div>
+      <h1>{ name }</h1>
+      <ul>
+      { entries.map((entry, a) => (
+        <div key={a}>
+        <hr></hr>
+        <li>{entry}</li>
+        </div>
+      )) }
+      </ul>
+      <h2>Add Entries</h2>
+      <input type="text"
+            onChange={e => setNewItem(e.target.value)}
+            value={newItem}/>
+            <button className="btn btn-success" onClick={() => addEntries(id)}>Add Items</button>
+      </div>): (
       <h1>This page does not Exist</h1>
     ) }
   </> 

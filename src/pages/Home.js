@@ -11,7 +11,9 @@ class Home extends Component {
     return ( 
     <>
       <Navbar />
-      <h2>Home Page</h2>
+      <div className="d-flex justify-content-center" style={{"font-weight": "regular", "margin-top": "25px"}}>
+        <h2>Welcome to charad.it!</h2>
+      </div>
     </> 
     );
   }

@@ -1,4 +1,4 @@
-/*:root {
+:root {
 	--primary: #D81E5B;
 	--secondary: #8A4EFC;
 	--light: #EEE;
@@ -6,33 +6,36 @@
 	--dark: #131A26;
 	--dark-alt: #202B3E;
 }
+
 * {
-	margin: 0;
-	padding: 0;
-	box-sizing: border-box;
-	font-family: "Fira Sans", sans-serif;
+  font-family: 'Montserrat', sans-serif;
 }
 
-.game {
-  width: 400px;
-  height: 400px;
-  margin-top: 20px;
-  margin-left: 10px;
-  background-color: var(--dark-alt);
-  color: var(--light);
+.gameviewmain {
+  margin-top: 30px; /* Add a top margin to avoid content overlay */
 }
 
-.game-entry {
-  height: 35px;
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
+.cssNav {
   background-color: var(--light-alt);
-  border: solid;
-  border-color: var(--dark);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
 }
 
-.entries {
-  bottom: 0;
-}*/
+.css-card {
+  width: 250px;
+  padding: 0px; 
+  border-radius: 11px; 
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+#task-holder {
+  display: flex;
+  flex-direction: column;
+}
+
+.inner-task {
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
