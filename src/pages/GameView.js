@@ -36,9 +36,9 @@ function GameView() {
     }).then(res => res.json())
 
     setGames([...games, data])
+    setImage()
     setPopupActive(false)
-    setNewGame("")
-    setImage("")
+    setNewGame()
   }
 
   const deleteGame = async id => {

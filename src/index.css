@@ -11,16 +11,42 @@
   font-family: 'Montserrat', sans-serif;
 }
 
-.gameviewmain {
-  margin-top: 30px; /* Add a top margin to avoid content overlay */
+.center-elem {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.text-small {
+  font-weight: lighter;
+  font-size: x-small;
 }
 
 .cssNav {
+  width: 100%;
+  height: 75px;
   background-color: var(--light-alt);
   position: fixed;
   top: 0;
-  width: 100%;
   z-index: 1;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.nav-item-css {
+  padding: 15px;
+  margin-top: auto;
+  padding-top: 0;
+  padding-bottom: 0;
+  margin-bottom: auto;
+  overflow: hidden;
+  text-decoration: none;
+  color: var(--dark-alt)
+}
+
+.nav-item-css:nth-last-of-type(3) {
+  margin-left: auto;
 }
 
 .css-card {
@@ -35,7 +61,77 @@
   flex-direction: column;
 }
 
+.create-survey {
+  display: flex;
+  flex-direction: column;
+}
+
+.create-survey-wrapper {
+  margin-left: 100px;
+  margin-right: 100px;
+}
+
 .inner-task {
   margin-top: 5px;
   margin-bottom: 5px;
+  padding-left: 20px;
 }
+
+.pair-css {
+  display: flex;
+  flex-direction: column;
+}
+
+.color-light-alt {
+  color: var(--light-alt)
+}
+
+.task-item-label {
+  margin-left: 10px;
+  margin-right: 10px;
+  margin-top: 25px;
+}
+
+.div-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.task-item-input {
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-right: auto;
+}
+
+.task-item-button {
+  margin-right: auto;
+  margin-left: 10px;
+}
+
+.description-css {
+  margin-left: 0;
+}
+
+.create-game-style {
+  margin: auto; 
+  width: 700px;
+  background-color: var(--dark-alt);
+  color: var(--light);
+  display: flex;
+  flex-direction: column;
+}
+
+.view-game-container {
+  display: flex;
+  flex-direction: row;
+  max-width: 800px;
+}
+
+.image-game-left {
+  width: 400px;
+  min-width: 400px;
+  min-height: 400px;
+  height: 400px;
+  object-fit: cover;
+}
+

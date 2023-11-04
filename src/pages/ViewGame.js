@@ -8,12 +8,14 @@ const CLIENT_BASE = "http://localhost:3000"
 
 function ViewGame() {
   const { id } = useParams();
-  const [name, setName] = useState()
-  const [gameid, setID] = useState(id)
-  const [entries, setEntries] = useState([])
-  const [items, setItems] = useState()
+  const [name, setName] = useState();
+  const [image, setImage] = useState("");
+  const [gameid, setID] = useState(id);
+  const [entries, setEntries] = useState([]);
+  const [items, setItems] = useState();
   const [newItem, setNewItem] = useState();
   const [exists, setExists] = useState(false);
+  const [sessionId, setSessionId] = useState();
 
   useEffect(() => {
     setUpGame();
@@ -23,6 +25,7 @@ function ViewGame() {
     fetch(API_BASE + "/game-by-id/" + id)
     .then(res => res.json())
     .then(data => {
+      setImage(data.image)
       setName(data.gameName)
       setEntries(data.entries)
       setExists(true)
@@ -46,20 +49,45 @@ function ViewGame() {
     setNewItem("")
   }
 
+  const createSession = async() => {
+    const data = await fetch(API_BASE + "/session/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        sessionName: name,
+        entries: entries
+      })
+    }).then(res => {
+      setSessionId(res.id)
+      res.json()
+    })
+  }
+
   return ( 
   <>
     <Navbar />
+    <div style={{"margin": "75px"}} className="gameviewmain"></div>
     {exists ? (
       <div>
-      <h1>{ name }</h1>
-      <ul>
-      { entries.map((entry, a) => (
-        <div key={a}>
-        <hr></hr>
-        <li>{entry}</li>
+        <div className="view-game-container">
+          <div>
+            <img className="image-game-left" src={image} alt="Game image..." />
+            <h1>{ name }</h1>
+          </div>
+          <div className="view-game-right">
+            <ul>
+              { entries.map((entry, a) => (
+              <div key={a}>
+                <hr></hr>
+                <li>{entry}</li>
+              </div>
+              )) }
+            </ul>
+          </div>
         </div>
-      )) }
-      </ul>
+      <a className="btn btn-success" onClick={createSession} href={CLIENT_BASE + "/play/" + sessionId}>Start Game</a>
       <h2>Add Entries</h2>
       <input type="text"
             onChange={e => setNewItem(e.target.value)}
