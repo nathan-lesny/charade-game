@@ -1,13 +1,15 @@
 import Navbar from "../components/Navbar";
 import React from 'react';
-import { useParams } from "react-router-dom";
+import { redirect, useParams } from "react-router-dom";
 import { useState, useEffect} from 'react';
+import { useNavigate } from "react-router-dom";
 
 const API_BASE = "http://localhost:3001"
 const CLIENT_BASE = "http://localhost:3000"
 
 function ViewGame() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [name, setName] = useState();
   const [image, setImage] = useState("");
   const [gameid, setID] = useState(id);
@@ -59,10 +61,10 @@ function ViewGame() {
         sessionName: name,
         entries: entries
       })
-    }).then(res => {
-      setSessionId(res.id)
-      res.json()
     })
+    .then(res => res.json())
+
+    navigate("/play/" + data._id)
   }
 
   return ( 
@@ -87,7 +89,7 @@ function ViewGame() {
             </ul>
           </div>
         </div>
-      <a className="btn btn-success" onClick={createSession} href={CLIENT_BASE + "/play/" + sessionId}>Start Game</a>
+      <a className="btn btn-success" onClick={createSession}>Start Game</a>
       <h2>Add Entries</h2>
       <input type="text"
             onChange={e => setNewItem(e.target.value)}
